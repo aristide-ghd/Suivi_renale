@@ -6,6 +6,8 @@ const medicamentSchema = new mongoose.Schema({
     dosage: { type: String, required: true },
     formePharmaceutique: { type: String, required: true},
     modeAdministration: { type: String, required: true }
-  });
+  },
+  { timestamps: true}
+);
 
 module.exports = mongoose.model('Medicament', medicamentSchema);

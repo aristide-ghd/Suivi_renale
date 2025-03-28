@@ -5,6 +5,8 @@ const assistanceSchema = new mongoose.Schema({
     observation: { type: String, required: true },
     idInfirmier: { type: mongoose.Schema.Types.ObjectId, ref: "Infirmier", required: true },
     idTraitementMedical: { type: mongoose.Schema.Types.ObjectId, ref: "TraitementMedical", required: true }
-  });
+  },
+  { timestamps: true}
+);
 
 module.exports = mongoose.model('Assistance', assistanceSchema);

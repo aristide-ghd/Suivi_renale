@@ -8,10 +8,10 @@ const consultationSchema = new mongoose.Schema({
     frequenceCardiaque: { type: Number, required: false},
     poids: { type: Number, required: false},
     diagnostic: { type: String, required: true},
-    dateCreation: { type: Date, default: Date.now },
-    dateModification: { type: Date, default: Date.now },
     idDossier: { type: mongoose.Schema.Types.ObjectId, ref: "DossierMedical", required: true },
     idRendezVous: { type: mongoose.Schema.Types.ObjectId, ref: "RendezVous", default: null }
-  });
+  },
+  { timestamps: true}
+);
 
   module.exports = mongoose.model('Consultation', consultationSchema);

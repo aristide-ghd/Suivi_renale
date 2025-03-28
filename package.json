@@ -10,7 +10,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "body-parser": "^1.20.3",
@@ -20,9 +19,19 @@
     "express-session": "^1.18.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.12.2",
+    "nodemailer": "^6.10.0",
     "yup": "^1.6.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aristide-ghd/Suivi_renale.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aristide-ghd/Suivi_renale/issues"
+  },
+  "homepage": "https://github.com/aristide-ghd/Suivi_renale#readme",
+  "description": ""
 }
