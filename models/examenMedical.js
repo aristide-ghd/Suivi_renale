@@ -1,0 +1,11 @@
+const mongoose = require("mongoose");
+
+const examenMedicalSchema = new mongoose.Schema({
+    dateExamen: { type: date, required: true },
+    designation: { type: String, required: true },
+    resultats: { type: String, required: false },
+    idConsultation: { type: mongoose.Schema.Types.ObjectId, ref: "Consultation", required: true },
+    idTypeExamenMedical: { type: mongoose.Schema.Types.ObjectId, ref: "TypeExamenMedical", required: true }
+  });
+
+module.exports = mongoose.model('ExamenMedical', examenMedicalSchema);
