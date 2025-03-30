@@ -4,11 +4,12 @@ const Medecin = require("../models/medecin");
 const Infirmier = require("../models/infirmier");
 const bcrypt = require("bcryptjs");
 const ObjectId = require("mongodb").ObjectId;
-const sendEmail = require("../utils/emailServices");
+const {sendEmail} = require("../utils/emailServices");
 
 
-// Enregistrement d'un utilisateur Patient/ Medecin/ Infirmier
+// Enregistrement d'un utilisateur (Patient/ Medecin/ Infirmier)
 const enregistrerUtilisateur = async ( res, req ) => {
+
     try{
         // Vérifier si l'email ou le numéro de téléphone existe déjà
         const data = req.body;
@@ -101,14 +102,21 @@ const enregistrerUtilisateur = async ( res, req ) => {
     catch(error) {
         res.status(400).json({ Message: "Erreur d'enregistrement"})
     }
+
 };
 
 
 // Validation d'un patient par l'administrateur
 const validerPatient = async ( req, res ) => {
+
     try {
         // Récupère l'ID du patient à partir des paramètres de la requête
         const { id } = req.params;
+
+        // Vérifier si l'ID est un ObjectId valide
+        if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+            return res.status(400).json({ Message: "ID invalide." });
+        }
 
         // Recherche un utilisateur dans la base de données avec l'ID fourni
         const patient = await Utilisateur.findById(id);
@@ -144,6 +152,7 @@ const validerPatient = async ( req, res ) => {
     catch(error) {
         res.status(400).json({ Message: "Erreur lors de la validation du patient"});
     }
+
 };
 
 
