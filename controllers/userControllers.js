@@ -3,12 +3,12 @@ const Patient = require("../models/patient");
 const Medecin = require("../models/medecin");
 const Infirmier = require("../models/infirmier");
 const bcrypt = require("bcryptjs");
+const { default: mongoose } = require("mongoose");
 const ObjectId = require("mongodb").ObjectId;
-const {sendEmail} = require("../utils/emailServices");
 
 
 // Enregistrement d'un utilisateur (Patient/ Medecin/ Infirmier)
-const enregistrerUtilisateur = async ( res, req ) => {
+const enregistrerUtilisateur = async ( req, res ) => {
 
     try{
         // Vérifier si l'email ou le numéro de téléphone existe déjà
@@ -18,11 +18,11 @@ const enregistrerUtilisateur = async ( res, req ) => {
         const existingPhone = await Utilisateur.findOne({ telephone: data.telephone });
 
         if( existingEmail ){
-            res.status(200).json({ Message: "Cet email existe déjà. Veuillez saisir un autre email." });
+            return res.status(201).json({ Message: "Cet email existe déjà. Veuillez saisir un autre email." });
         }
 
         if( existingPhone ){
-            res.status(200).json({ Message: "Cet numéro de téléphone appartient déjà à un utilisateur. Veuillez renseigner un autre numéro." });
+            return res.status(201).json({ Message: "Cet numéro de téléphone appartient déjà à un utilisateur. Veuillez renseigner un autre numéro." });
         }
         
         // Cryptage du mot de passe utilisateur
@@ -36,8 +36,7 @@ const enregistrerUtilisateur = async ( res, req ) => {
             motDePasse: password, 
             telephone: data.telephone, 
             sexe: data.sexe, 
-            role: data.role, 
-            statutValidation: "En attente" };
+            role: data.role };
         
         // Création du nouvel utilisateur
         const new_user = new Utilisateur(user_data);
@@ -46,7 +45,7 @@ const enregistrerUtilisateur = async ( res, req ) => {
         await new_user.save();
         
 
-        if( role === "Patient" ){
+        if( data.role === "Patient" ){
 
             // Recuperation des donnnées complémentaires du patient
             const patient_data = { 
@@ -66,7 +65,7 @@ const enregistrerUtilisateur = async ( res, req ) => {
             await new_patient.save();
             
         }
-        else if( role === "Medecin"){
+        else if( data.role === "Medecin" ){
 
             // Recuperation des donnees complementaires du medecin
             const medecin_data = { 
@@ -82,7 +81,7 @@ const enregistrerUtilisateur = async ( res, req ) => {
             await new_medecin.save();
 
         }
-        else if(role === "Infirmier(ère)"){
+        else if( data.role === "Infirmier" ){
 
             // Recuperation des infos complementaires de l'infirmier/ère
             const infirmier_data = { 
@@ -100,60 +99,124 @@ const enregistrerUtilisateur = async ( res, req ) => {
         res.status(200).json({ Message: "Utilisateur enregistré avec succès. En attente de validation! "});
     }
     catch(error) {
-        res.status(400).json({ Message: "Erreur d'enregistrement"})
+        res.status(500).json({ Message: "Erreur d'enregistrement", Error: error.message})
     }
 
 };
 
 
-// Validation d'un patient par l'administrateur
-const validerPatient = async ( req, res ) => {
+// Obtention de la liste des utilisateurs en attente
+const getUtilisateursEnAttente = async (req, res) => {
 
     try {
-        // Récupère l'ID du patient à partir des paramètres de la requête
+        // Recherche de tous les utilisateurs dont le statutValidation est "En attente"
+        const utilisateurs = await Utilisateur.find({ statutValidation: "En attente" });
+
+        // Vérification si aucun utilisateur n'est en attente
+        if (utilisateurs.length === 0) {
+            return res.status(404).json({ Message: "Aucun utilisateur en attente." });
+        }
+
+        // Retour de la liste des utilisateurs en attente
+        res.status(200).json({ Message: "Voici la liste des utilisateurs en attente: ", utilisateurs});
+
+    } catch (error) {
+        res.status(500).json({ Message: "Erreur lors de la récupération des utilisateurs en attente.", Error: error.message });
+    }
+
+};
+
+
+const getUtilisateurById = async (req, res) => {
+
+    try {
+        // Recupere l'id de l'utilisateur dans les parametres de la requete
         const { id } = req.params;
 
-        // Vérifier si l'ID est un ObjectId valide
-        if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+        // Vérification si l'ID est valide
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({ Message: "ID invalide." });
         }
 
-        // Recherche un utilisateur dans la base de données avec l'ID fourni
-        const patient = await Utilisateur.findById(id);
+        // Trouve l'utilisateur par ID
+        const utilisateur = await Utilisateur.findById(id);
 
-        // Vérifie si l'utilisateur existe et s'il a bien le rôle "Patient"
-        if(!patient || patient.role !== "Patient"){
-            return res.status(400).json({ Message: "Patient non trouvé" });
+        // Vérifie si l'utilisateur existe et si son statut de validation est "En attente"
+        if (!utilisateur || utilisateur.statutValidation !== "En attente") {
+            return res.status(404).json({ Message: "Utilisateur non trouvé." });
         }
 
-        // Changement du champ statutValidation du patient quand il est trouvé
-        patient.statutValidation = "Validé";
+        // Déclaration d'objet qui contiendra les détails supplémentaires en fonction du rôle de l'utilisateur
+        let detailsSupplementaires = {};
 
-        // Modification et sauvegarde du champ statutValidation dans Utilisateur
-        await patient.save();
+        // Récupère les informations complémentaires si l'utilisateur est un PATIENT
+        if (utilisateur.role === "Patient") {
 
-        // Envoi d'un email au patient pour lui confirmer que son compte a été validé.
-        // Utilisation de la fonction sendEmail importé depuis un autre fichier
-        await sendEmail(patient.email, 
-            "Validation de votre compte sur CKDTracker", 
+            // Recherche un patient ayant comme `idUtilisateur` l'ID fourni
+            const patient = await Patient.findOne({ idUtilisateur: id });
 
-            //Utilisation des backticks pour traiter les paragraphes comme une seule chaine de caratère
-            ` 
-            <p>Votre compte patient a été validée avec succès</p>,
-            <p>Vous pouvez maintenant vous connecter en cliquant le lien ci-dessous:</p>,
-            <a href="https://notresite.com/connexion">Se connecter</a>,
-            <p>Si vous avez des questions, n'hésitez pas a nous contactez.</p>
-            
-            `
-        );
+            if (patient) {
 
-        res.status(201).json({ Message: "Patient validée avec succès" });
-    }
-    catch(error) {
-        res.status(400).json({ Message: "Erreur lors de la validation du patient"});
+                // Stocke les détails supplémentaires du patient dans `detailsSupplementaires`
+                detailsSupplementaires = {
+                    dateNaissance: patient.dateNaissance, 
+                    adresse: patient.adresse, 
+                    groupeSanguin: patient.groupeSanguin, 
+                    allergiesConnues: patient.allergiesConnues, 
+                    situationMatrimoniale: patient.situationMatrimoniale, 
+                    contactUrgence: patient.contactUrgence,
+                    electroPhorese: patient.electroPhorese,
+                    idUtilisateur: patient.idUtilisateur
+                };
+
+            }
+        }
+
+        // Récupère les informations complémentaires si l'utilisateur est un MEDECIN
+        if (utilisateur.role === "Medecin") {
+
+            // Recherche un medecin ayant comme `idUtilisateur` l'ID fourni
+            const medecin = await Medecin.findOne({ idUtilisateur: id });
+
+            if (medecin) {
+
+                // Stocke les détails supplémentaires du medecin dans `detailsSupplementaires`
+                detailsSupplementaires = {
+                    specialite: medecin.specialite,
+                    numeroLicence: medecin.numeroLicence,
+                    signature: medecin.signature,
+                    idUtilisateur: medecin.idUtilisateur
+                };
+
+            }
+        }
+
+        // Récupère les informations complémentaires si l'utilisateur est un INFIRMIER
+        if (utilisateur.role === "Infirmier") {
+
+            // Recherche un infirmier ayant comme `idUtilisateur` l'ID fourni
+            const infirmier = await Infirmier.findOne({ idUtilisateur: id });
+
+            if (infirmier) {
+
+                // Stocke les détails supplémentaires de l'infirmier dans `detailsSupplementaires`
+                detailsSupplementaires = {
+                    serviceAffectation: infirmier.serviceAffectation,
+                    idUtilisateur: infirmier.idUtilisateur
+                };
+
+            }
+        }
+
+        // Envoie une réponse sur les informations de l'utilisateur convertit en objet JS et les détails supplémentaires récupérés
+        res.status(200).json({ Message: "Détails de l'utilisateur: ", ...utilisateur.toObject(), detailsSupplementaires });
+
+    } catch (error) {
+        res.status(500).json({ Message: "Erreur lors de la récupération de l'utilisateur.", Error: error.message });
     }
 
 };
 
 
-module.exports = {enregistrerUtilisateur, validerPatient};
+
+module.exports = {enregistrerUtilisateur, getUtilisateursEnAttente, getUtilisateurById};
