@@ -2,6 +2,7 @@ const Utilisateur = require("../models/user/user");
 const Patient = require("../models/patient");
 const Medecin = require("../models/medecin");
 const Infirmier = require("../models/infirmier");
+const mongoose = require('mongoose');
 const ObjectId = require("mongodb").ObjectId;
 const {sendEmail} = require("../utils/emailServices");
 
@@ -14,7 +15,7 @@ const validerPatient = async ( req, res ) => {
 
         // Vérifier si l'ID est un ObjectId valide
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ Message: "ID invalide." });
+            return res.status(400).json({ Message: "L´ID est invalide." });
         }
 
         // Recherche un utilisateur dans la base de données avec l'ID fourni
@@ -31,22 +32,34 @@ const validerPatient = async ( req, res ) => {
         // Modification et sauvegarde du champ statutValidation dans Utilisateur
         await patient.save();
 
+        // Message a envoyer par email
+        //Utilisation des backticks pour traiter les paragraphes comme une seule chaine de caratère
+        const messageHTML = 
+        `   <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+                <h2 style="color: #4CAF50;">Validation de votre inscription</h2>
+                
+                <p>Bonjour <strong>${patient.prenom} ${patient.nom}</strong>,</p>
+                
+                <p>Votre compte <strong>Patient</strong> a été <strong>validé avec succès</strong>.</p>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <a href="https://notresite.com/connexion" 
+                    style="display: inline-block; padding: 12px 20px; font-size: 16px; color: white; background-color: #4CAF50; 
+                    text-decoration: none; border-radius: 5px;">
+                        Se connecter
+                    </a>
+                </div>
+                
+                <p>Si vous avez des questions, contactez-nous à : <a href="mailto:aristidegbohaida@gmail.com">aristidegbohaida@gmail.com</a>.</p>
+                
+                <p style="font-size: 12px; color: #777;">Ceci est un message automatique, merci de ne pas répondre.</p>
+            </div> ` ;
+
         // Envoi d'un email au patient pour lui confirmer que son compte a été validé.
         // Utilisation de la fonction sendEmail importé depuis un autre fichier
-        await sendEmail(patient.email, 
-            "Validation de votre inscription sur CKDTracker", 
+        await sendEmail(patient.email, "Validation de votre inscription sur CKDTracker", messageHTML );
 
-            //Utilisation des backticks pour traiter les paragraphes comme une seule chaine de caratère
-            ` 
-            <p>Votre compte patient a été validée avec succès</p>
-            <p>Vous pouvez maintenant vous connecter en cliquant le lien ci-dessous:</p>
-            <a href="https://notresite.com/connexion">Se connecter</a>
-            <p>Si vous avez des questions, n'hésitez pas a nous contactez.</p>
-            
-            `
-        );
-
-        res.status(200).json({ Message: "Compte <strong>Patient</strong> validée avec succès" });
+        res.status(200).json({ Message: "Compte Patient validée avec succès" });
     }
     catch(error) {
         res.status(500).json({ Message: "Erreur lors de la validation du compte Patient", Error: error.message });
@@ -94,7 +107,7 @@ const validerMedecin = async(req, res) => {
                 `
             );
 
-            return res.status(200).json({ Message: "Compte <strong>Medecin</strong> rejeté avec succès"});
+            return res.status(200).json({ Message: "Compte Medecin rejeté avec succès"});
         }
 
         // Changement du champ statutValidation du medecin quand il est accepté
@@ -118,7 +131,7 @@ const validerMedecin = async(req, res) => {
             `
         )
 
-        res.status(200).json({ Message: "Compte <strong>Médecin</strong> validée avec succès"});
+        res.status(200).json({ Message: "Compte Médecin validée avec succès"});
     }
     catch(error) {
         res.status(500).json({ Message: "Erreur lors de la validation du compte Médecin", Error: error.message});

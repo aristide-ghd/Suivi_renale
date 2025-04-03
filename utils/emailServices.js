@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
  * Envoie un email à un utilisateur
  * @param {string} destinataire - L'adresse email du destinataire
  * @param {string} sujet - L'objet du mail
- * @param {string} message - Le contenu du mail
+ * @param {string} message - Le contenu du mail peut etre du HTML ou du texte Brut
  */
 
 const sendEmail = async (destinataire, sujet, message) => {
@@ -24,9 +24,9 @@ const sendEmail = async (destinataire, sujet, message) => {
             from: process.env.EMAIL_USER, // Expediteur
             to: destinataire,             // Destinataire
             subject: sujet,               // Objet du mail
-            text: message                 // Contenu du mail
+            html: message                 // Contenu du mail au format HTML
         });
-        console.log(`Email envoyé avec succès à ${to}`);
+        console.log(`Email envoyé avec succès à ${destinataire}`);
 
     } 
     catch (error) {
