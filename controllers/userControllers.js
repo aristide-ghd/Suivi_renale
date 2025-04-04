@@ -2,6 +2,7 @@ const Utilisateur = require("../models/user/user");
 const Patient = require("../models/patient");
 const Medecin = require("../models/medecin");
 const Infirmier = require("../models/infirmier");
+const jwt = require('jsonwebtoken');
 const bcrypt = require("bcryptjs");
 const { default: mongoose } = require("mongoose");
 const ObjectId = require("mongodb").ObjectId;
@@ -218,5 +219,71 @@ const getUtilisateurById = async (req, res) => {
 };
 
 
+//Generation d'un jeton après connexion de l'utilisateur
+const generateJwt= (identity) =>{
+    try {
 
-module.exports = {enregistrerUtilisateur, getUtilisateursEnAttente, getUtilisateurById};
+        if (!process.env.JWT_SECRET) {
+            throw new Error("Clé JWT non définie dans le fichier .env");
+        }
+
+      const token = jwt.sign({ identity }, process.env.JWT_SECRET, { expiresIn: "12h" });
+  
+      const expirationTime = new Date();
+      expirationTime.setHours(expirationTime.getHours() + 12);
+  
+      return {
+        token,
+        expiresIn: "12h",
+        expirationTime
+      };
+    }
+    catch (error) {
+        console.error("Erreur lors de la génération du token:", error.message);
+        throw error; // ← très important pour ne pas retourner undefined
+    }
+};
+
+
+const userConnected = async (req, res) => {
+
+    try {
+
+        // Recuperer l'email et le mot de passe depuis le corps de la requete
+        const { email, motDePasse} = req.body;
+
+        // Verifier si l'email existe dans la base de données
+        const utilisateur = await Utilisateur.findOne({email});
+
+        if (!utilisateur) {
+            return res.status(400).json({ Message: "L'email est invalide" });
+        }
+        
+        // Comparer le mot de passe fourni avec le mot de passe stocké dans la base de données
+        const mot_de_passe_correct = await bcrypt.compare(motDePasse, utilisateur.motDePasse);
+
+        if (!mot_de_passe_correct) {
+            return res.status(400).json({ Message: "Le mot de passe est incorrect. Veuillez réessayer!"});
+        }
+
+        // Verifier si le statut de validation du compte est "Valider"
+        if ( utilisateur.statutValidation !== "Validé") {
+            return res.status(404).json({ Message: "Votre compte n'est pas validé"});
+        }
+
+        // console.log("Utilisateur:", utilisateur);
+
+        const return_token = generateJwt(utilisateur);
+
+        // console.log("Data",return_token);
+
+        res.status(200).json({ message: "Connexion réussie", data:return_token, utilisateur});
+
+    }
+    catch (error) {
+        res.status(500).json({ Message: "Erreur lors de la connexion", Error: error.message});
+    }
+}
+  
+
+module.exports = {enregistrerUtilisateur, getUtilisateursEnAttente, getUtilisateurById, userConnected};
