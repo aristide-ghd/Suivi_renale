@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
     email: { type: String, unique: true, required: true },
     motDePasse: { type: String, required: true },
     telephone: { type: String, required: true },
-    sexe: { type: String, enum: ["Homme", "Femme"], required: true },
+    sexe: { type: String, enum: ["Masculin", "Feminin"], required: true },
     role: { type: String, enum: ["Patient", "Medecin", "Infirmier", "Administrateur"], required: true },
     statutValidation: { type: String, enum: ["En attente", "Validé", "Rejeté"], default: "En attente"}
   }, 

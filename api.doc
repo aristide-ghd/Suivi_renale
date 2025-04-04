@@ -1,0 +1,150 @@
+***********************************Enregistrement d'un utilisateur**************************************************
+
+URL de l'API : http://localhost:5000/api/auth/enregistrer
+METHODE: POST
+Onglet Body > Sélectionner raw > Choisir JSON
+
+Données de test en JSON :
+
++++++++++++Patient++++++++++
+
+{
+    "nom": "Doe",
+    "prenom": "John",
+    "email": "johndoe@example.com",
+    "motDePasse": "password123",
+    "telephone": "+22990011222",
+    "sexe": "Homme",
+    "role": "Patient",
+    "dateNaissance": "1990-05-12",
+    "adresse": "Cotonou, Bénin",
+    "groupeSanguin": "O+",
+    "allergiesConnues": ["yyyyy", "vvvvv"],
+    "situationMatrimoniale": "Célibataire",
+    "contactUrgence": "+22991122334",
+    "electroPhorese": "AA"
+}
+
++++++++++++++++Medecin+++++++++++++++
+
+{
+    "nom": "Smith",
+    "prenom": "Alice",
+    "email": "alicesmith@example.com",
+    "motDePasse": "password123",
+    "telephone": "+229988776655",
+    "sexe": "Femme",
+    "role": "Medecin",
+    "specialite": "Neuphrologue",
+    "numeroLicence": "MED123456",
+    "signature": "Signature en base64"
+}
+
++++++++++++++++Infirmier+++++++++++++++
+
+{
+    "nom": "Jean",
+    "prenom": "Marc",
+    "email": "jeanmarc@example.com",
+    "motDePasse": "password123",
+    "telephone": "+229977889900",
+    "sexe": "Homme",
+    "role": "Infirmier",
+    "serviceAffectation": "Urgences"
+}
+Cliquer sur Send
+
+Résultats attendu: 
+
+{
+    "Message": "Utilisateur enregistré avec succès. En attente de validation!"
+}
+
+Resultat atendu(email ou telephone existant):
+
+{
+    "Message": "Cet email existe déjà. Veuillez saisir un autre email."
+}
+ou
+{
+    "Message": "Cet numéro de téléphone appartient déjà à un utilisateur. Veuillez renseigner un autre numéro."
+}
+
+
+*********************************Obtenir les utilisateurs en attente************************************
+
+URL de l'API: http://localhost:5000/api/admin/utilisateurs/en_attente
+METHODE: GET
+Cliquer sur Send
+
+**********************************Obtenir les infos d'un utilisateur par son ID*******************************
+
+URL de l'API: http://localhost:5000/api/admin/utilisateurs/67ea907ee5362003e2eb2d4f
+METHODE: GET
+Cliquer sur Send
+
+*********************************Valider un patient par son ID*****************************************
+
+URL de l'API: http://localhost:5000/api/admin/validerPatient/67eead7aee036a62ac9e1b43
+METHODE: PUT
+Cliquer sur Send 
+
+Résultat attendu: 
+
+{
+    Message: "Compte Patient validé avec succès"
+}
+Email envoyé au Patient automatiquement
+
+*********************************Valider un médecin par son id********************************************
+
+URL de l'API: http://localhost:5000/api/admin/validerMedecin/67efa455be297c9c3531c63d
+METHODE: PUT
+
+Onglet Body > Sélectionner raw > Choisir JSON
+
+Données de test en JSON:
+
+{
+  "action": "Rejeter",
+  "motifRejet": "Les informations fournies sont incomplètes ou erronées."
+}
+Cliquer sur Send
+
+Resultat attendu(si motifRejet manquant):
+
+{
+    "Message": "Le motif de rejet est requis",
+}
+
+Resultat attendu(si action et motifRejet présent):
+
+{
+    "Message": "Compte Medecin rejeté avec succès",
+    "Raison": "Les informations fournies sont incomplètes ou erronées."
+}
+Email envoyé au médecin automatiquement
+
+Données de test en JSON:
+{
+    "action": "Valider"
+}
+Cliquer sur Send
+
+Resultat attendu:
+
+{
+    "Message": "Compte medecin validé avec succès"
+}
+Email envoyé au médecin automatiquement
+
+
+*****************************Valider un infirmier(ère) par son ID*************************************
+
+URL de l'API: http://localhost:5000/api/admin/validerInfirmier/67ea945a74c7de93a8b3761f
+METHODE: PUT
+
+Onglet Body > Sélectionner raw > Choisir JSON
+
+Données de test en JSON:
+ Même chose que celui de Medecin.
