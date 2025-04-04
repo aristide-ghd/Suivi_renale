@@ -12,13 +12,13 @@ router.get('/utilisateurs/en_attente', getUtilisateursEnAttente);
 router.get('/utilisateurs/:id', getUtilisateurById);
 
 // Route pour valider un patient par l'administrateur
-router.get('/validerPatient/:id', validerPatient);
+router.put('/validerPatient/:id', validerPatient);
 
 // Route pour valider un médécin par l'administrateur
-router.get('/validerMedecin/:id', validerMedecin);
+router.put('/validerMedecin/:id', validerMedecin);
 
 // Route pour valider un infirmier par l'administrateur
-router.get('/validerInfirmier/:id', validerInfirmier);
+router.put('/validerInfirmier/:id', validerInfirmier);
 
 
 module.exports = router;
