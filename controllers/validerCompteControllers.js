@@ -32,6 +32,10 @@ const validerPatient = async ( req, res ) => {
         // Modification et sauvegarde du champ statutValidation dans Utilisateur
         await patient.save();
 
+        const lien_connexion = `https://notresite.com/connexion`;
+
+        const lien_contact = `mailto:aristidegbohaida@gmail.com`;
+
         // Message a envoyer par email
         //Utilisation des backticks pour traiter les paragraphes comme une seule chaine de caratère
         const messageHTML = 
@@ -45,14 +49,14 @@ const validerPatient = async ( req, res ) => {
                 <p>Vous pouvez a present vous connecter en cliquant le bouton ci-dessous</p>
 
                 <div style="text-align: center; margin: 20px 0;">
-                    <a href="https://notresite.com/connexion" 
+                    <a href="${lien_connexion}" 
                     style="display: inline-block; padding: 12px 20px; font-size: 16px; color: white; background-color: #4CAF50; 
                     text-decoration: none; border-radius: 5px;">
                         Se connecter
                     </a>
                 </div>
                 
-                <p>Si vous avez des questions, contactez-nous à : <a href="mailto:aristidegbohaida@gmail.com">aristidegbohaida@gmail.com</a>.</p>
+                <p>Si vous avez des questions, contactez-nous à : <a href="${lien_contact}">aristidegbohaida@gmail.com</a>.</p>
                 
                 <p style="font-size: 12px; color: #777;">Ceci est un message automatique, merci de ne pas répondre.</p>
             </div> ` ;
@@ -103,6 +107,8 @@ const validerMedecin = async(req, res) => {
             // Modification et sauvegarde du champ statutValidation dans Utilisateur
             await utilisateur.save();
 
+            const lien_contact = `mailto:aristidegbohaida@gmail.com`;
+            
             const messageHTML = 
         `   <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
                 <h2 style="color: red;">Rejet de votre inscription</h2>
@@ -115,7 +121,7 @@ const validerMedecin = async(req, res) => {
                     <strong>${motifRejet}</strong>
                 </div>
                 
-                <p>Si vous avez des questions, contactez-nous à : <a href="mailto:aristidegbohaida@gmail.com">aristidegbohaida@gmail.com</a>.</p>
+                <p>Si vous avez des questions, contactez-nous à : <a href="${lien_contact}">aristidegbohaida@gmail.com</a>.</p>
                 
                 <p style="font-size: 12px; color: #777;">Ceci est un message automatique, merci de ne pas répondre.</p>
             </div> ` ;
@@ -133,6 +139,10 @@ const validerMedecin = async(req, res) => {
         // Modification et sauvegarde du champ statutValidation dans Utilisateur
         await utilisateur.save();
 
+        const lien_connexion = `https://notresite.com/connexion`;
+
+        const lien_contact = `mailto:aristidegbohaida@gmail.com`;
+
         const messageHTML = 
         `   <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
                 <h2 style="color: #4CAF50;">Validation de votre inscription</h2>
@@ -144,14 +154,14 @@ const validerMedecin = async(req, res) => {
                 <p>Vous pouvez a present vous connecter en cliquant le bouton ci-dessous</p>
                 
                 <div style="text-align: center; margin: 20px 0;">
-                    <a href="https://notresite.com/connexion" 
+                    <a href="${lien_connexion}" 
                     style="display: inline-block; padding: 12px 20px; font-size: 16px; color: white; background-color: #4CAF50; 
                     text-decoration: none; border-radius: 5px;">
                         Se connecter
                     </a>
                 </div>
                 
-                <p>Si vous avez des questions, contactez-nous à : <a href="mailto:aristidegbohaida@gmail.com">aristidegbohaida@gmail.com</a>.</p>
+                <p>Si vous avez des questions, contactez-nous à : <a href="${lien_contact}">aristidegbohaida@gmail.com</a>.</p>
                 
                 <p style="font-size: 12px; color: #777;">Ceci est un message automatique, merci de ne pas répondre.</p>
             </div> ` ;
@@ -202,6 +212,8 @@ const validerInfirmier = async(req, res) => {
             // Modification et sauvegarde du champ statutValidation dans Utilisateur
             await utilisateur.save();
 
+            const lien_contact = `mailto:aristidegbohaida@gmail.com`;
+
             const messageHTML = 
             `   <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
                     <h2 style="color: red;">Rejet de votre inscription</h2>
@@ -214,7 +226,7 @@ const validerInfirmier = async(req, res) => {
                         <strong>${motifRejet}</strong>
                     </div>
                     
-                    <p>Si vous avez des questions, contactez-nous à : <a href="mailto:aristidegbohaida@gmail.com">aristidegbohaida@gmail.com</a>.</p>
+                    <p>Si vous avez des questions, contactez-nous à : <a href="${lien_contact}">aristidegbohaida@gmail.com</a>.</p>
                     
                     <p style="font-size: 12px; color: #777;">Ceci est un message automatique, merci de ne pas répondre.</p>
                 </div> ` ;
@@ -233,6 +245,10 @@ const validerInfirmier = async(req, res) => {
         // Modification et sauvegarde du champ statutValidation dans Utilisateur
         await utilisateur.save();
 
+        const lien_contact = `mailto:aristidegbohaida@gmail.com`;
+
+        const lien_connexion = `https://notresite.com/connexion`;
+
         const messageHTML = 
         `   <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
                 <h2 style="color: #4CAF50;">Validation de votre inscription</h2>
@@ -244,14 +260,14 @@ const validerInfirmier = async(req, res) => {
                 <p>Vous pouvez a present vous connecter en cliquant le bouton ci-dessous</p>
                 
                 <div style="text-align: center; margin: 20px 0;">
-                    <a href="https://notresite.com/connexion" 
+                    <a href="${lien_connexion}" 
                     style="display: inline-block; padding: 12px 20px; font-size: 16px; color: white; background-color: #4CAF50; 
                     text-decoration: none; border-radius: 5px;">
                         Se connecter
                     </a>
                 </div>
                 
-                <p>Si vous avez des questions, contactez-nous à : <a href="mailto:aristidegbohaida@gmail.com">aristidegbohaida@gmail.com</a>.</p>
+                <p>Si vous avez des questions, contactez-nous à : <a href="${lien_contact}">aristidegbohaida@gmail.com</a>.</p>
                 
                 <p style="font-size: 12px; color: #777;">Ceci est un message automatique, merci de ne pas répondre.</p>
             </div> ` ;

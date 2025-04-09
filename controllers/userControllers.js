@@ -17,13 +17,18 @@ const enregistrerUtilisateur = async ( req, res ) => {
 
         const existingEmail = await Utilisateur.findOne({ email: data.email });
         const existingPhone = await Utilisateur.findOne({ telephone: data.telephone });
+        const mot_de_passe_present = data.motDePasse;
 
         if( existingEmail ){
-            return res.status(201).json({ Message: "Cet email existe déjà. Veuillez saisir un autre email." });
+            return res.status(400).json({ Message: "Cet email existe déjà. Veuillez saisir un autre email." });
         }
 
         if( existingPhone ){
-            return res.status(201).json({ Message: "Cet numéro de téléphone appartient déjà à un utilisateur. Veuillez renseigner un autre numéro." });
+            return res.status(401).json({ Message: "Cet numéro de téléphone appartient déjà à un utilisateur. Veuillez renseigner un autre numéro." });
+        }
+
+        if( !mot_de_passe_present ){
+            return res.status(402).json({ Message: "Le mot de passe est requis" });
         }
         
         // Cryptage du mot de passe utilisateur
@@ -128,6 +133,7 @@ const getUtilisateursEnAttente = async (req, res) => {
 };
 
 
+// Obtention des infos d'un utilisateur a travers son ID
 const getUtilisateurById = async (req, res) => {
 
     try {
@@ -245,6 +251,7 @@ const generateJwt= (identity) =>{
 };
 
 
+// Connexion de l'utilisateur 
 const userConnected = async (req, res) => {
 
     try {
@@ -273,11 +280,14 @@ const userConnected = async (req, res) => {
 
         // console.log("Utilisateur:", utilisateur);
 
+        const categorie = utilisateur.role;
+        // console.log("Role de l'utilisateur:", categorie);
+
         const return_token = generateJwt(utilisateur);
 
         // console.log("Data",return_token);
 
-        res.status(200).json({ message: "Connexion réussie", data:return_token, utilisateur});
+        res.status(200).json({ message: "Connexion réussie", data:return_token, utilisateur, Rôle_utilisateur: categorie});
 
     }
     catch (error) {
@@ -285,5 +295,6 @@ const userConnected = async (req, res) => {
     }
 }
   
+
 
 module.exports = {enregistrerUtilisateur, getUtilisateursEnAttente, getUtilisateurById, userConnected};

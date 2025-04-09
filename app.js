@@ -2,8 +2,11 @@ const express = require('express');
 const connectDB = require('./config/db');
 const app = express();
 const cors = require('cors');
-const authorization = require('./routes/authorization');
-const administrator = require('./routes/administrator');
+const userRoutes = require('./routes/userRoutes');
+const administratorRoutes = require('./routes/administratorRoutes');
+const doctorRoutes = require('./routes/doctorRoutes');
+const nurseRoutes = require('./routes/nurseRoutes');
+const patientRoutes = require('./routes/patientRoutes');
 
 require("dotenv").config(); // Charge les variables d'environnement depuis .env
 
@@ -15,8 +18,11 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
-app.use('/api/auth', authorization);
-app.use('/api/admin', administrator);
+app.use('/api/user', userRoutes);
+app.use('/api/admin', administratorRoutes);
+app.use('/api/doctor', doctorRoutes);
+app.use('/api/nurse', nurseRoutes);
+app.use('/api/patient', patientRoutes);
 
 
 // Port d'ecoute

@@ -1,6 +1,6 @@
 ***********************************Enregistrement d'un utilisateur**************************************************
 
-URL de l'API : http://localhost:5000/api/auth/enregistrer
+URL de l'API : http://localhost:5000/api/user/enregistrer
 METHODE: POST
 Onglet Body > Sélectionner raw > Choisir JSON
 

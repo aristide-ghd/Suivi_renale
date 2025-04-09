@@ -4,11 +4,12 @@ const userSchema = new mongoose.Schema({
     nom: { type: String, required: true },
     prenom: { type: String, required: true },
     email: { type: String, unique: true, required: true },
-    motDePasse: { type: String, required: true },
+    motDePasse: { type: String, required: false },
     telephone: { type: String, required: true },
     sexe: { type: String, enum: ["Masculin", "Feminin"], required: true },
     role: { type: String, enum: ["Patient", "Medecin", "Infirmier", "Administrateur"], required: true },
-    statutValidation: { type: String, enum: ["En attente", "Validé", "Rejeté"], default: "En attente"}
+    statutValidation: { type: String, enum: ["En attente", "Validé", "Rejeté"], default: "En attente"},
+    ajoutePar: { type: String, default: null }
   }, 
   { timestamps: true}
 );

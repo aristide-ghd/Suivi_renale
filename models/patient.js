@@ -8,7 +8,8 @@ const patientSchema = new mongoose.Schema({
     situationMatrimoniale: { type: String, enum: ["Célibataire", "Marié(e)", "Divorcé(e)", "Veuf(ve)"], required: true },
     contactUrgence: { type: String, required: true },
     electroPhorese: { type: String, enum: ["AA", "AC", "AS", "SC", "SS"], required: true },
-    idUtilisateur: { type: mongoose.Schema.Types.ObjectId, ref: "Utilisateur", required: true }
+    idUtilisateur: { type: mongoose.Schema.Types.ObjectId, ref: "Utilisateur", required: true },
+    idMedecinPrincipal: { type: mongoose.Schema.Types.ObjectId, ref: "Medecin", default: null }
   },
   { timestamps: true}
 );
