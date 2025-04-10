@@ -17,6 +17,10 @@ connectDB();
 app.use(express.json());
 app.use(cors());
 
+app.get('/', (req, res) => {
+    res.send("Bienvenue sur mon appli");
+});
+
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/admin', administratorRoutes);
