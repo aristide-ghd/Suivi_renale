@@ -131,8 +131,50 @@ module.exports = router;
 
 
 {
-    "id": "ID_UTILISATEUR",
-    "token": "TOKEN",
-    "motDePasse": "leMotDePasseChoisi"
-  }
+  "id": "ID_UTILISATEUR",
+  "token": "TOKEN",
+  "motDePasse": "leMotDePasseChoisi"
+}
+  
+
+
+
+{
+  "_id": "607c35bb4f1a2b3c87d890ab",
+  "notes": [
+    {
+      "type": "Historique",
+      "content": "Le patient a des antécédents de diabète de type 2. Diagnostic confirmé il y a 5 ans.",
+      "date": "2025-04-10T00:00:00.000Z"
+    },
+    {
+      "type": "Recommandations",
+      "content": "Il est recommandé de réduire l'apport en sucre et d'augmenter l'activité physique.",
+      "date": "2025-04-10T00:00:00.000Z"
+    },
+    {
+      "type": "Observations",
+      "content": "Le patient a montré une amélioration de son état suite au traitement actuel.",
+      "date": "2025-04-10T00:00:00.000Z"
+    },
+    {
+      "type": "Suivi",
+      "content": "Suivi prévu dans 3 mois pour évaluer l'efficacité du traitement.",
+      "date": "2025-04-10T00:00:00.000Z"
+    }
+  ],
+  "idPatient": "607c35bb4f1a2b3c87d890ac",  // Référence à l'objet Patient
+  "consultations": [
+    "607c35bb4f1a2b3c87d890ad",  // Référence à un objet Consultation
+    "607c35bb4f1a2b3c87d890ae"   // Référence à un autre objet Consultation
+  ],
+  "ordonnances": [
+    "607c35bb4f1a2b3c87d890af"   // Référence à un objet Ordonnance
+  ],
+  "traitements": [
+    "607c35bb4f1a2b3c87d890b0"   // Référence à un objet Traitement
+  ],
+  "createdAt": "2025-04-10T00:00:00.000Z",
+  "updatedAt": "2025-04-10T00:00:00.000Z"
+}
   

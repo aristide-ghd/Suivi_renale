@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const examenMedicalSchema = new mongoose.Schema({
-    dateExamen: { type: date, required: true },
+    dateExamen: { type: Date, required: true },
     designation: { type: String, required: true },
     resultats: { type: String, required: false },
     idConsultation: { type: mongoose.Schema.Types.ObjectId, ref: "Consultation", required: true },

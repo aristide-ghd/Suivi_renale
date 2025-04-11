@@ -65,7 +65,23 @@ const validerPatient = async ( req, res ) => {
         // Utilisation de la fonction sendEmail importé depuis un autre fichier
         await sendEmail(patient.email, "Validation de votre inscription sur CKDTracker", messageHTML );
 
-        res.status(200).json({ Message: "Compte Patient validée avec succès" });
+        const ajouter_par = await Utilisateur.findById(patient.ajoutePar);
+
+        let professionnel = null;
+
+        if( ajouter_par ){
+
+            professionnel = {
+                _id: ajouter_par._id,
+                nom: ajouter_par.nom,
+                prenom: ajouter_par.prenom,
+                role: ajouter_par.role
+            }
+            
+        }
+
+        res.status(200).json({ Message: "Compte Patient validée avec succès", ajoutePar: professionnel });
+
     }
     catch(error) {
         res.status(500).json({ Message: "Erreur lors de la validation du compte Patient", Error: error.message });
@@ -94,6 +110,12 @@ const validerMedecin = async(req, res) => {
         if(!utilisateur || utilisateur.role !== "Medecin"){
             return res.status(404).json({ Message: "Médecin non trouvé" });
         }
+
+        // let medecin = await Medecin.findOne({ utilisateur: id });
+        // if (!medecin || !medecin.numeroLicence) {
+        //     return res.status(400).json({ message: "Informations professionnelles incomplètes." });
+        // }
+
 
         if ( action === "Rejeter") {
             

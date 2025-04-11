@@ -17,6 +17,7 @@ connectDB();
 app.use(express.json());
 app.use(cors());
 
+// Message de Bienvenue au demarrage du fichier
 app.get('/', (req, res) => {
     res.send("Bienvenue sur mon appli");
 });

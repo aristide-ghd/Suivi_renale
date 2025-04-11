@@ -233,16 +233,21 @@ const generateJwt= (identity) =>{
             throw new Error("Clé JWT non définie dans le fichier .env");
         }
 
-      const token = jwt.sign({ identity }, process.env.JWT_SECRET, { expiresIn: "12h" });
+        // {identity} si je veux tout envoyé
+        const token = jwt.sign(
+            { identity }, 
+            process.env.JWT_SECRET, 
+            { expiresIn: "12h" }
+        );
   
-      const expirationTime = new Date();
-      expirationTime.setHours(expirationTime.getHours() + 12);
+        const expirationTime = new Date();
+        expirationTime.setHours(expirationTime.getHours() + 12);
   
-      return {
-        token,
-        expiresIn: "12h",
-        expirationTime
-      };
+        return {
+            token,
+            expiresIn: "12h",
+            expirationTime
+        };
     }
     catch (error) {
         console.error("Erreur lors de la génération du token:", error.message);
@@ -287,7 +292,36 @@ const userConnected = async (req, res) => {
 
         // console.log("Data",return_token);
 
-        res.status(200).json({ message: "Connexion réussie", data:return_token, utilisateur, Rôle_utilisateur: categorie});
+        const ajouter_par = await Utilisateur.findById(utilisateur.ajoutePar);
+        
+        let professionnel = null;
+
+        if( ajouter_par ){
+
+            professionnel = {
+                _id: ajouter_par._id,
+                nom: ajouter_par.nom,
+                prenom: ajouter_par.prenom,
+                role: ajouter_par.role
+            }
+            
+        }
+
+        res.status(200).json({ 
+            message: "Connexion réussie", 
+            data:return_token, 
+            utilisateur: {   
+                _id: utilisateur._id, 
+                nom: utilisateur.nom, 
+                prenom: utilisateur.prenom,
+                email: utilisateur.email,
+                telephone: utilisateur.telephone,
+                sexe: utilisateur.sexe,
+                statutValidation: utilisateur.statutValidation 
+            }, 
+            Rôle_utilisateur: categorie, 
+            ajouterPar: professionnel
+        });
 
     }
     catch (error) {

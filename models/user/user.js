@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     sexe: { type: String, enum: ["Masculin", "Feminin"], required: true },
     role: { type: String, enum: ["Patient", "Medecin", "Infirmier", "Administrateur"], required: true },
     statutValidation: { type: String, enum: ["En attente", "Validé", "Rejeté"], default: "En attente"},
-    ajoutePar: { type: String, default: null }
+    ajoutePar: { type: mongoose.Schema.Types.ObjectId, ref: "Utilisateur", default: null }
   }, 
   { timestamps: true}
 );
