@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenue sur l'API Suivi Rénal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f9; /* Fond pastel doux */
+            color: #333;
+        }
+        header {
+            background-color: #2c3e50; /* Couleur sombre élégante */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.8em;
+        }
+        .container {
+            margin: 50px auto;
+            max-width: 900px;
+            text-align: center;
+            padding: 30px;
+            background: #ffffff; /* Fond blanc pour les sections */
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            color: #2c3e50; /* Bleu professionnel */
+            font-size: 2.2em;
+            margin-bottom: 20px;
+        }
+        .container p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .button-container {
+            margin-top: 30px;
+        }
+        button {
+            background-color: #2c3e50; /* Bleu professionnel */
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        button:hover {
+            background-color: #1a252f; /* Bleu plus foncé au survol */
+            transform: scale(1.05);
+        }
+        a {
+            text-decoration: none;
+            color: white;
+        }
+        footer {
+            margin-top: 50px;
+            background-color: #2c3e50; /* Couleur sombre élégante */
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        footer p {
+            margin: 5px 0;
+        }
+        footer a {
+            color: #1abc9c; /* Vert professionnel */
+            text-decoration: none;
+            font-weight: bold;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        .guide {
+            text-align: left;
+            margin-top: 30px;
+        }
+        .guide h3 {
+            color: #2c3e50; /* Bleu professionnel */
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+        .guide ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        .guide ul li {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bienvenue sur l'API Suivi Rénal</h1>
+    </header>
+    <div class="container">
+        <h2>À propos de l'API</h2>
+        <p>
+            L'API Suivi Rénal est une solution complète pour la gestion du suivi des patients atteints de maladies rénales.
+            Elle offre des outils puissants pour les professionnels de santé afin de suivre les données médicales,
+            améliorer la prise en charge des patients et optimiser les soins.
+        </p>
+        <p>
+            Cette API est conçue pour être sécurisée, performante et facile à intégrer dans vos systèmes existants.
+        </p>
+        <div class="button-container">
+            <button>
+                <a href="/api-docs">Accéder à la documentation</a>
+            </button>
+        </div>
+        <div class="guide">
+            <h3>Guide pour utiliser la documentation Swagger :</h3>
+            <ul>
+                <li>Accédez à la documentation en cliquant sur le bouton ci-dessus ou en visitant <a href="/api-docs">/api-docs</a>.</li>
+                <li>Explorez les différentes routes disponibles pour les utilisateurs, administrateurs, médecins, infirmiers et patients.</li>
+                <li>Pour tester une route, cliquez sur celle-ci, entrez les paramètres requis, et cliquez sur "Try it out".</li>
+                <li>Utilisez un token JWT valide pour accéder aux routes protégées. Vous pouvez le fournir dans la section "Authorize".</li>
+                <li>Consultez les réponses possibles pour chaque route, y compris les codes de statut HTTP et les exemples de réponses.</li>
+            </ul>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2025 Suivi Rénal API. Tous droits réservés.</p>
+        <p>
+            Consultez notre <a href="https://github.com/aristide-ghd" target="_blank">dépôt GitHub</a> pour plus d'informations.
+        </p>
+    </footer>
+</body>
+</html>
