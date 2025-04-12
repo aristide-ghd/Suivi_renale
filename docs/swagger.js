@@ -11,7 +11,12 @@ const swaggerOptions = {
         servers: [
             {
             url: 'http://localhost:5000', // Remplacez par l'URL de votre API
+            description: 'Serveur de développement local',
             },
+            {
+            url: 'https://suivi-renale-api.onrender.com', // Remplacez par l'URL de votre API en production
+            description: 'Serveur de production',
+            }
         ],
         components: {
             securitySchemes: {
