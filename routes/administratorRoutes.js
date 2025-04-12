@@ -1,25 +1,148 @@
 const express = require('express');
 const router = express.Router();
-const {validerPatient, validerMedecin, validerInfirmier} = require('../controllers/validerCompteControllers');
-const {getUtilisateursEnAttente, getUtilisateurById} = require('../controllers/userControllers');
+const { validatePatient, validateDoctor, validateNurse } = require('../controllers/validerCompteControllers');
+const { getPendingUsers, getUserById } = require('../controllers/userControllers');
 const { authMiddleware } = require('../middlewares/authMiddleware');
 const { checkPermission } = require('../middlewares/roleMiddleware');
 
 
-// Route pour obtenir la liste des utilisateurs en attente
-router.get('/utilisateurs/en_attente', authMiddleware, checkPermission('Administrateur'), getUtilisateursEnAttente);
 
-// Route pour obtenir tous les infos d'un utilisateur
-router.get('/utilisateurs/:id', authMiddleware, checkPermission('Administrateur'), getUtilisateurById);
+// Route to get the list of pending users
+/**
+ * @swagger
+ * /api/admin/pending:
+ *   get:
+ *     summary: Retrieve the list of users pending validation
+ *     description: This route allows an administrator to get the list of users waiting for validation.
+ *     tags: [Administrateurs]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Liste des utilisateurs en attente récupérée avec succès
+ *       401:
+ *         description: Non autorisé
+ *       404:
+ *         description: Aucun utilisateur en attente trouvé
+ */
+router.get('/pending', authMiddleware, checkPermission('Administrateur'), getPendingUsers);
 
-// Route pour valider un patient par l'administrateur
-router.put('/validerPatient/:id', authMiddleware, checkPermission('Administrateur'), validerPatient);
 
-// Route pour valider un médécin par l'administrateur
-router.put('/validerMedecin/:id', authMiddleware, checkPermission('Administrateur'), validerMedecin);
 
-// Route pour valider un infirmier par l'administrateur
-router.put('/validerInfirmier/:id', authMiddleware, checkPermission('Administrateur'), validerInfirmier);
+// Route to get all information of a user by ID
+/**
+ * @swagger
+ * /api/admin/{id}:
+ *   get:
+ *     summary: Retrieve user information by their ID
+ *     description: This route allows an administrator to retrieve the information of a user by their ID.
+ *     tags: [Administrateurs]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID de l'utilisateur
+ *     responses:
+ *       200:
+ *         description: Informations de l'utilisateur récupérées avec succès
+ *       401:
+ *         description: Non autorisé
+ *       404:
+ *         description: Utilisateur non trouvé
+ */
+router.get('/:id', authMiddleware, checkPermission('Administrateur'), getUserById);
+
+
+
+// Route to validate a patient by the administrator
+/**
+ * @swagger
+ * /api/admin/validatePatient/{id}:
+ *   put:
+ *     summary: Validate a patient by the administrator
+ *     description: This route allows an administrator to validate a patient.
+ *     tags: [Administrateurs]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID du patient à valider
+ *     responses:
+ *       200:
+ *         description: Patient validé avec succès
+ *       401:
+ *         description: Non autorisé
+ *       404:
+ *         description: Patient non trouvé
+ */
+router.put('/validatePatient/:id', authMiddleware, checkPermission('Administrateur'), validatePatient);
+
+
+
+// Route to validate a doctor by the administrator
+/**
+ * @swagger
+ * /api/admin/validateDoctor/{id}:
+ *   put:
+ *     summary: Validate a doctor by the administrator
+ *     description: This route allows an administrator to validate a doctor.
+ *     tags: [Administrateurs]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID du médecin à valider
+ *     responses:
+ *       200:
+ *         description: Médecin validé avec succès
+ *       401:
+ *         description: Non autorisé
+ *       404:
+ *         description: Médecin non trouvé
+ */
+router.put('/validateDoctor/:id', authMiddleware, checkPermission('Administrateur'), validateDoctor);
+
+
+
+// Route to validate a nurse by the administrator
+/**
+ * @swagger
+ * /api/admin/validerInfirmier/{id}:
+ *   put:
+ *     summary: Validate a nurse by the administrator
+ *     description: This route allows an administrator to validate a nurse.
+ *     tags: [Administrateurs]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID de l'infirmier à valider
+ *     responses:
+ *       200:
+ *         description: Infirmier validé avec succès
+ *       401:
+ *         description: Non autorisé
+ *       404:
+ *         description: Infirmier non trouvé
+ */
+router.put('/validateNurse/:id', authMiddleware, checkPermission('Administrateur'), validateNurse);
+
 
 
 module.exports = router;

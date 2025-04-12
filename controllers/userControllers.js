@@ -9,7 +9,7 @@ const ObjectId = require("mongodb").ObjectId;
 
 
 // Enregistrement d'un utilisateur (Patient/ Medecin/ Infirmier)
-const enregistrerUtilisateur = async ( req, res ) => {
+const register = async ( req, res ) => {
 
     try{
         // Vérifier si l'email ou le numéro de téléphone existe déjà
@@ -112,7 +112,7 @@ const enregistrerUtilisateur = async ( req, res ) => {
 
 
 // Obtention de la liste des utilisateurs en attente
-const getUtilisateursEnAttente = async (req, res) => {
+const getPendingUsers = async (req, res) => {
 
     try {
         // Recherche de tous les utilisateurs dont le statutValidation est "En attente"
@@ -134,7 +134,7 @@ const getUtilisateursEnAttente = async (req, res) => {
 
 
 // Obtention des infos d'un utilisateur a travers son ID
-const getUtilisateurById = async (req, res) => {
+const getUserById = async (req, res) => {
 
     try {
         // Recupere l'id de l'utilisateur dans les parametres de la requete
@@ -331,4 +331,4 @@ const userConnected = async (req, res) => {
   
 
 
-module.exports = {enregistrerUtilisateur, getUtilisateursEnAttente, getUtilisateurById, userConnected};
+module.exports = {register, getPendingUsers, getUserById, userConnected};

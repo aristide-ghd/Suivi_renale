@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 
 
 // Fonction pour definir son mot de passe en cliquant sur le lien 
-const activerCompte = async (req, res) => {
+const activateAccount = async (req, res) => {
 
   const { id, token, motDePasse } = req.body;
 
@@ -49,4 +49,4 @@ const activerCompte = async (req, res) => {
 };
 
 
-module.exports = { activerCompte };
+module.exports = { activateAccount };

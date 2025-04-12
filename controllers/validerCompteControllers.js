@@ -7,7 +7,7 @@ const ObjectId = require("mongodb").ObjectId;
 const {sendEmail} = require("../utils/emailServices");
 
 // Validation d'un patient par l'administrateur
-const validerPatient = async ( req, res ) => {
+const validatePatient = async ( req, res ) => {
 
     try {
         // Récupère l'ID du patient à partir des paramètres de la requête
@@ -77,7 +77,7 @@ const validerPatient = async ( req, res ) => {
                 prenom: ajouter_par.prenom,
                 role: ajouter_par.role
             }
-            
+
         }
 
         res.status(200).json({ Message: "Compte Patient validée avec succès", ajoutePar: professionnel });
@@ -91,7 +91,7 @@ const validerPatient = async ( req, res ) => {
 
 
 // Validation d'un medecin par l'administrateur
-const validerMedecin = async(req, res) => {
+const validateDoctor = async(req, res) => {
     
     try{
         //Recupere l'id du medecin a partir des parametres de la requete
@@ -202,7 +202,7 @@ const validerMedecin = async(req, res) => {
 
 
 // Validation d'un infirmier par l'administrateur
-const validerInfirmier = async(req, res) => {
+const validateNurse = async(req, res) => {
     
     try{
         //Recupere l'id du medecin a partir des parametres de la requete
@@ -308,4 +308,4 @@ const validerInfirmier = async(req, res) => {
 
 
 
-module.exports = {validerPatient, validerMedecin, validerInfirmier};
+module.exports = {validatePatient, validateDoctor, validateNurse};

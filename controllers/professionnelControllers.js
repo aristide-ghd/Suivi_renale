@@ -4,7 +4,7 @@ const {sendEmail} = require("../utils/emailServices");
 
 
 // Ajouter un patient par un médecin ou un infirmier
-const addPatientByProfessionnel = async(req, res) => {
+const addPatientByProfessional = async(req, res) => {
 
     try {
         const idUtilisateur = req.user.identity._id;
@@ -72,4 +72,4 @@ const addPatientByProfessionnel = async(req, res) => {
 }
 
 
-module.exports = { addPatientByProfessionnel };
+module.exports = { addPatientByProfessional };

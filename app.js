@@ -8,6 +8,9 @@ const doctorRoutes = require('./routes/doctorRoutes');
 const nurseRoutes = require('./routes/nurseRoutes');
 const patientRoutes = require('./routes/patientRoutes');
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpecs = require('./docs/swagger');
+
 require("dotenv").config(); // Charge les variables d'environnement depuis .env
 
 //Connect to database
@@ -21,6 +24,11 @@ app.use(cors());
 app.get('/', (req, res) => {
     res.send("Bienvenue sur mon appli");
 });
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs, {
+     explorer: true,
+     customSiteTitle: "API Suivi_renale - Documentation",
+    }));
 
 // Routes
 app.use('/api/user', userRoutes);
