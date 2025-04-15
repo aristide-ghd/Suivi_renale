@@ -27,18 +27,25 @@ const { checkPermission } = require('../middlewares/roleMiddleware');
  *               name:
  *                 type: string
  *                 description: Name of the patient
- *               age:
- *                 type: integer
- *                 description: Age of the patient
- *               address:
+ *               asurname:
  *                 type: string
- *                 description: Address of the patient
+ *                 description: Surname of the patient
+ *               email:
+ *                 type: string
+ *                 description: Email of the patient
  *               phone:
  *                 type: string
  *                 description: Phone number of the patient
+ *               sexe:
+ *                 type: string
+ *                 description: Sexe of the patient(Masculin or Feminin)
  *     responses:
  *       201:
- *         description: Patient ajouté avec succès. Un email a été envoyé pour l’activation du compte.
+ *         description: Cet email existe déjà. Veuillez saisir un autre email.
+ *       202:
+ *         description: Cet numéro de téléphone appartient déjà à un utilisateur. Veuillez renseigner un autre numéro.
+ *       200:
+ *         description: Patient ajouté avec succès
  *       500:
  *         description: Erreur lors de l'ajout du patient
  */

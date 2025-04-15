@@ -275,7 +275,7 @@ const userConnected = async (req, res) => {
         const mot_de_passe_correct = await bcrypt.compare(motDePasse, utilisateur.motDePasse);
 
         if (!mot_de_passe_correct) {
-            return res.status(400).json({ Message: "Le mot de passe est incorrect. Veuillez réessayer!"});
+            return res.status(401).json({ Message: "Le mot de passe est incorrect. Veuillez réessayer!"});
         }
 
         // Verifier si le statut de validation du compte est "Valider"

@@ -63,7 +63,7 @@ const addPatientByProfessional = async(req, res) => {
         // Envoi de l’email
         await sendEmail(nouvelPatient.email, "Création de votre compte sur CKDTracker", messageHTML);
     
-        res.status(201).json({ Message: "Patient ajouté avec succès. Un email a été envoyé pour l’activation du compte." });
+        res.status(200).json({ Message: "Patient ajouté avec succès. Un email a été envoyé pour l’activation du compte." });
     }
     catch(error) {
         res.status(500).json({ message: "Erreur lors de l'ajout du patient", Erreur: error.message });

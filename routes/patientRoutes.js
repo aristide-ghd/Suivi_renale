@@ -32,6 +32,12 @@ const { yupValidator } = require('../middlewares/yup');
  *     responses:
  *       200:
  *         description: Mot de passe défini avec succès.En attente de validation
+ *       400:
+ *         description: Ce compte est déjà activé.
+ *       401:
+ *         description: Lien invalide ou expiré.
+ *       404:
+ *         description: Utilisateur introuvable.
  *       500:
  *         description: Erreur lors de la création du mot de passe.
  */

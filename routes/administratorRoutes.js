@@ -49,10 +49,14 @@ router.get('/pending', authMiddleware, checkPermission('Administrateur'), getPen
  *     responses:
  *       200:
  *         description: Informations de l'utilisateur récupérées avec succès
+ *       400:
+ *         description: ID invalide
  *       401:
  *         description: Non autorisé
  *       404:
  *         description: Utilisateur non trouvé
+ *       500:
+ *         description: Erreur lors de la récupération des informations de l'utilisateur
  */
 router.get('/:id', authMiddleware, checkPermission('Administrateur'), getUserById);
 
@@ -78,10 +82,14 @@ router.get('/:id', authMiddleware, checkPermission('Administrateur'), getUserByI
  *     responses:
  *       200:
  *         description: Patient validé avec succès
+ *       400:
+ *         description: ID invalide
  *       401:
  *         description: Non autorisé
  *       404:
  *         description: Patient non trouvé
+ *       500:
+ *         description: Erreur lors de la validation du patient
  */
 router.put('/validatePatient/:id', authMiddleware, checkPermission('Administrateur'), validatePatient);
 
@@ -107,10 +115,14 @@ router.put('/validatePatient/:id', authMiddleware, checkPermission('Administrate
  *     responses:
  *       200:
  *         description: Médecin validé avec succès
+ *       400:
+ *         description: ID invalide
  *       401:
  *         description: Non autorisé
  *       404:
  *         description: Médecin non trouvé
+ *       500:
+ *         description: Erreur lors de la validation du médecin
  */
 router.put('/validateDoctor/:id', authMiddleware, checkPermission('Administrateur'), validateDoctor);
 
@@ -136,10 +148,14 @@ router.put('/validateDoctor/:id', authMiddleware, checkPermission('Administrateu
  *     responses:
  *       200:
  *         description: Infirmier validé avec succès
+ *       400:
+ *         description: ID invalide
  *       401:
  *         description: Non autorisé
  *       404:
  *         description: Infirmier non trouvé
+ *       500:
+ *         description: Erreur lors de la validation de l'infirmier
  */
 router.put('/validateNurse/:id', authMiddleware, checkPermission('Administrateur'), validateNurse);
 
